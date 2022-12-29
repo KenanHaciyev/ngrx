@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {Form, FormControl, FormGroup, Validators} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Store} from "@ngrx/store";
 import {AppState} from "../../state/app.state";
 import {Post} from "../../models/posts.model";
@@ -19,7 +19,8 @@ export class EditPostComponent implements OnInit, OnDestroy {
   postSubscription: Subscription
 
   constructor(private route: ActivatedRoute,
-              private store: Store<AppState>) {
+              private store: Store<AppState>,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -32,13 +33,6 @@ export class EditPostComponent implements OnInit, OnDestroy {
     })
   }
 
-  private formCreate() {
-    this.postForm = new FormGroup({
-      title: new FormControl(this.post.title, [Validators.required, Validators.minLength(6)]),
-      description: new FormControl(this.post.description, [Validators.required, Validators.minLength(10)])
-    })
-  }
-
   ngOnDestroy(): void {
     if (this.postSubscription) {
       this.postSubscription.unsubscribe()
@@ -46,7 +40,7 @@ export class EditPostComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    if (this.postForm.invalid){
+    if (this.postForm.invalid) {
       return
     }
 
@@ -54,11 +48,19 @@ export class EditPostComponent implements OnInit, OnDestroy {
     const description = this.postForm.value.description
 
     const post = {
-      id:this.post.id,
+      id: this.post.id,
       title,
       description
     }
 
     this.store.dispatch(updatePost({post}))
+    this.router.navigate(['/posts'])
+  }
+
+  private formCreate() {
+    this.postForm = new FormGroup({
+      title: new FormControl(this.post.title, [Validators.required, Validators.minLength(6)]),
+      description: new FormControl(this.post.description, [Validators.required, Validators.minLength(10)])
+    })
   }
 }
