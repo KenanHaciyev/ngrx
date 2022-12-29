@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Store} from "@ngrx/store";
-import {AppState} from "../../state/app.state";
+import {AppState} from "../../store/app.state";
 import {Post} from "../../models/posts.model";
 import {getPostById} from "../state/posts.selector";
 import {Subscription} from "rxjs";

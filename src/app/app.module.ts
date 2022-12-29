@@ -12,7 +12,8 @@ import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
 import {EffectsModule} from '@ngrx/effects';
 import {HttpClientModule} from "@angular/common/http";
-import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loading-spinner.component';
+import {LoadingSpinnerComponent} from './shared/components/loading-spinner/loading-spinner.component';
+import {appReducer} from "./store/app.state";
 
 @NgModule({
   declarations: [
@@ -23,13 +24,13 @@ import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loa
   ],
   imports: [
     BrowserModule,
-    StoreModule.forRoot({}),
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
     RouterModule,
-    StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
     ReactiveFormsModule,
+    StoreModule.forRoot(appReducer),
+    StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
     EffectsModule.forRoot([])
   ],
   providers: [],
